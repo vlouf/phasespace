@@ -169,9 +169,3 @@ end subroutine phase_space_count
 !    call phase_space_avg(x, y, z, xout, yout, ndim0, nx, nx, phase)
 !    return
 !end subroutine compute_phasespace
-
-
-
-
-
-
