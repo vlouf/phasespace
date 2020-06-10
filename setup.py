@@ -1,20 +1,28 @@
-from __future__ import division, absolute_import, print_function
+import setuptools
 
-from numpy.distutils.core import Extension
+from numpy.distutils.core import setup
+from numpy.distutils.extension import Extension
+from numpy import get_include
+from Cython.Build import cythonize
 
-ext1 = Extension(name = 'phasespace',
-                 sources = ['phasespace.f90'])
+NAME = 'phasespace'
+PACKAGES = setuptools.find_packages()
 
-ext2 = Extension(name = 'phase',
-                 sources = ['phase.py'])
-
+EXTENSIONS = [Extension(PACKAGES[0] + '.phasespace', [PACKAGES[0] + '/phasespace.f90'])]
+INCLUDE_DIRS = [get_include(), '.']
+EXTENSIONS = cythonize(EXTENSIONS)
 
 if __name__ == "__main__":
     from numpy.distutils.core import setup
-    setup(name = 'phase',
-          description       = "Phase-space",
-          author            = "Valentin Louf",
-          author_email      = "valentin.louf@monash.edu",
-          ext_modules = [ext1, ext2]
-          )
+    setup(name=NAME,
+          version='0.0.1',
+          zip_safe=True,
+          include_dirs=INCLUDE_DIRS,
+          packages=PACKAGES,
+          description="Compute Phase-space",
+          author="Valentin Louf",
+          author_email="valentin.louf@monash.edu",
+          install_requires=['numpy', 'cython'],
+          exclude_dirs=['notebook'],
+          ext_modules=EXTENSIONS)
 # End of setup_example.py
