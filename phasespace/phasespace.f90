@@ -21,19 +21,19 @@ subroutine phase_space_avg(xin, yin, arr, xout, yout, ndim0, nx, ny, phase)
 
     do j = 1, ny
         do i = 1, nx
-             cnt = COUNT(((xin >= xout(i) - dx).AND. &
-                        (xin < xout(i) + dx).AND. &
-                        (yin >= yout(j) - dy).AND. &
-                        (yin < yout(j) + dy)))
+             cnt = COUNT((xin >= xout(i) - dx).AND. &
+                         (xin < xout(i) + dx).AND. &
+                         (yin >= yout(j) - dy).AND. &
+                         (yin < yout(j) + dy))
 
             if (cnt.EQ.0) then
                 continue
             endif
 
             total = SUM(arr, MASK=((xin >= xout(i) - dx).AND. &
-                            (xin < xout(i) + dx).AND. &
-                            (yin >= yout(j) - dy).AND. &
-                            (yin < yout(j) + dy)))
+                                   (xin < xout(i) + dx).AND. &
+                                   (yin >= yout(j) - dy).AND. &
+                                   (yin < yout(j) + dy)))
 
             phase(j, i) = total / cnt
        enddo
@@ -65,19 +65,19 @@ subroutine phase_space_var(xin, yin, arr, xout, yout, ndim0, nx, ny, phase)
 
     do j = 1, ny
         do i = 1, nx
-             cnt = COUNT(((xin >= xout(i) - dx).AND. &
-                        (xin < xout(i) + dx).AND. &
-                        (yin >= yout(j) - dy).AND. &
-                        (yin < yout(j) + dy)))
+             cnt = COUNT((xin >= xout(i) - dx).AND. &
+                         (xin < xout(i) + dx).AND. &
+                         (yin >= yout(j) - dy).AND. &
+                         (yin < yout(j) + dy))
 
             if (cnt.EQ.0) then
                 continue
             endif
 
             total = SUM(arr, MASK=((xin >= xout(i) - dx).AND. &
-                            (xin < xout(i) + dx).AND. &
-                            (yin >= yout(j) - dy).AND. &
-                            (yin < yout(j) + dy)))
+                                   (xin < xout(i) + dx).AND. &
+                                   (yin >= yout(j) - dy).AND. &
+                                   (yin < yout(j) + dy)))
 
             mean = total / cnt
             total = SUM(arr ** 2 - mean ** 2, MASK=((xin >= xout(i) - dx).AND. &
@@ -119,10 +119,10 @@ subroutine phase_space_count(xin, yin, xout, yout, ndim0, nx, ny, phase)
         do i = 1, nx
             cnt = 0
 
-            cnt = COUNT(((xin >= xout(i) - dx).AND. &
+            cnt = COUNT((xin >= xout(i) - dx).AND. &
                         (xin < xout(i) + dx).AND. &
                         (yin >= yout(j) - dy).AND. &
-                        (yin < yout(j) + dy)))
+                        (yin < yout(j) + dy))
 
             phase(j, i) = cnt
        enddo
