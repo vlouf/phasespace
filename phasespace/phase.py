@@ -3,14 +3,14 @@ Histogram (density, averaging and variance) in a phase-space diagram.
 
 @author: Valentin Louf
 @corporation: Monash University and the Australian Bureau of Meteorology
-@date: 10/06/2019
+@date: 20/06/2019
 @email: <valentin.louf@bom.gov.au>
 """
 import numpy as np
 from .phasespace import phase_space_avg, phase_space_var, phase_space_count
 
 
-def phasespace(x, y, z=None, *, bins=10, range=None, kind='mean'):
+def phasespace(x, y, z=None, *, bins=10, range=None, kind="mean"):
     """
     Compute a phase-space diagram. In the case where NaN values are present in
     the (x, y) arrays, then the range must be provided; otherwise the range
@@ -68,8 +68,8 @@ def phasespace(x, y, z=None, *, bins=10, range=None, kind='mean'):
     if z is None:
         phase = phase_space_count(x, y, xout, yout)
     else:
-        if kind == 'mean':
+        if kind == "mean":
             phase = phase_space_avg(x, y, z, xout, yout)
-        elif kind == 'var':
+        elif kind == "var":
             phase = np.ma.masked_equal(phase_space_var(x, y, z, xout, yout), -9999)
-    return  phase
+    return phase
