@@ -9,22 +9,24 @@ corresponding to one unique point in the phase-space.
 @email: <valentin.louf@bom.gov.au>
 """
 import setuptools
-
-from numpy.distutils.core import setup
-from numpy.distutils.extension import Extension
-from numpy import get_include
+from setuptools import setup
+from numpy.distutils.core import Extension
 from Cython.Build import cythonize
+import numpy as np
 
 NAME = "phasespace"
 PACKAGES = setuptools.find_packages()
 
 EXTENSIONS = [Extension(PACKAGES[0] + ".phasespace", [PACKAGES[0] + "/phasespace.f90"])]
-INCLUDE_DIRS = [get_include(), "."]
+
+INCLUDE_DIRS = [np.get_include(), "."]
+
 EXTENSIONS = cythonize(EXTENSIONS)
 
-if __name__ == "__main__":
-    from numpy.distutils.core import setup
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
+if __name__ == "__main__":
     setup(
         name=NAME,
         version="0.0.1",
@@ -34,8 +36,7 @@ if __name__ == "__main__":
         description="Compute Phase-space",
         author="Valentin Louf",
         author_email="valentin.louf@monash.edu",
-        install_requires=["numpy", "cython"],
+        install_requires=requirements,
         exclude_dirs=["notebook"],
         ext_modules=EXTENSIONS,
     )
-# End of setup_example.py
