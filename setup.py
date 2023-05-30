@@ -3,7 +3,7 @@ from Cython.Build import cythonize
 import numpy
 
 extensions = [
-    Extension("phasespace._phasespace", ["phasespace/phasespace.pyx", "phasespace/_phasespace.c"], include_dirs=[numpy.get_include()])
+    Extension("phasespace._phasespace", ["phasespace/_phasespace.pyx", "phasespace/_phasespace.c"], include_dirs=[numpy.get_include()])
 ]
 
 setup(
