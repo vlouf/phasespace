@@ -7,7 +7,7 @@ Histogram (density, averaging and variance) in a phase-space diagram.
 @email: <valentin.louf@bom.gov.au>
 """
 import numpy as np
-from phasespace import phase_space_avg, phase_space_count
+from phasespace import compute_phase_space_avg, compute_phase_space_count
 
 
 def phasespace(x, y, z=None, *, bins=10, range=None, kind="mean"):
@@ -66,10 +66,10 @@ def phasespace(x, y, z=None, *, bins=10, range=None, kind="mean"):
         yout = np.linspace(range[1][0], range[1][1], N1)
 
     if z is None:
-        phase = phase_space_count(x, y, xout, yout)
+        phase = compute_phase_space_count(x, y, xout, yout)
     else:
         if kind == "mean":
-            phase = phase_space_avg(x, y, z, xout, yout)
+            phase = compute_phase_space_avg(x, y, z, xout, yout)
         # elif kind == "var":
         #     phase = np.ma.masked_equal(phase_space_var(x, y, z, xout, yout), -9999)
     return phase
