@@ -40,10 +40,10 @@ def phasespace(x, y, z=None, *, bins=10, range=None, kind="mean"):
         yout = np.linspace(range[1][0], range[1][1], N1)
 
     if z is None:
-        phase = compute_phase_space_count(x, y, xout, yout)
+        phase = compute_phase_space_count(x.astype(np.float64), y.astype(np.float64), xout.astype(np.float64), yout.astype(np.float64))
     else:
         if kind == "mean":
-            phase = compute_phase_space_avg(x, y, z, xout, yout)
+            phase = compute_phase_space_avg(x.astype(np.float64), y.astype(np.float64), z.astype(np.float64), xout.astype(np.float64), yout.astype(np.float64))
         # elif kind == "var":
         #     phase = np.ma.masked_equal(phase_space_var(x, y, z, xout, yout), -9999)
     return phase
