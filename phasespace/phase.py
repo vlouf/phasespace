@@ -7,36 +7,10 @@ Histogram (density, averaging and variance) in a phase-space diagram.
 @email: <valentin.louf@bom.gov.au>
 """
 import numpy as np
-from .phasespace import phase_space_avg, phase_space_var, phase_space_count
+from _phasespace import compute_phase_space_avg, compute_phase_space_count
 
 
 def phasespace(x, y, z=None, *, bins=10, range=None, kind="mean"):
-    """
-    Compute a phase-space diagram. In the case where NaN values are present in
-    the (x, y) arrays, then the range must be provided; otherwise the range
-    is automatically computed as being the min/max of (x, y).
-
-    Parameters:
-    ===========
-    x: array <N>
-        x-axis variable
-    y: array <N>
-        y-axis variable
-    z: optionnal array <N>
-        Third value. In the case z is NOT provided then the function return a
-        density (count) plot of (x, y)
-    bins: int
-        Number of bins.
-    range: List[[xmin, xmax], [ymin, ymax]]
-        Range for which the diagram is computed.
-    kind: str ('mean', 'var')
-        To return the average or variance of 'z' in the (x, y) phasespace.
-
-    Returns:
-    ========
-    phase: array <bins, bins>
-        Phase-space diagram.
-    """
     try:
         len(bins)
         N0 = bins[0]
@@ -66,10 +40,10 @@ def phasespace(x, y, z=None, *, bins=10, range=None, kind="mean"):
         yout = np.linspace(range[1][0], range[1][1], N1)
 
     if z is None:
-        phase = phase_space_count(x, y, xout, yout)
+        phase = compute_phase_space_count(x.astype(np.float64), y.astype(np.float64), xout.astype(np.float64), yout.astype(np.float64))
     else:
         if kind == "mean":
-            phase = phase_space_avg(x, y, z, xout, yout)
-        elif kind == "var":
-            phase = np.ma.masked_equal(phase_space_var(x, y, z, xout, yout), -9999)
+            phase = compute_phase_space_avg(x.astype(np.float64), y.astype(np.float64), z.astype(np.float64), xout.astype(np.float64), yout.astype(np.float64))
+        # elif kind == "var":
+        #     phase = np.ma.masked_equal(phase_space_var(x, y, z, xout, yout), -9999)
     return phase
