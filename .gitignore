@@ -104,3 +104,6 @@ venv.bak/
 .mypy_cache/
 .vscode
 *.pbs
+
+#pyx compilation files
+phasespace/_phasespace.c
