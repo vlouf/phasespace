@@ -54,29 +54,28 @@ void phase_space_avg(
 
 
 void phase_space_count(double* xin, double* yin, double* xout, double* yout, int ndim0, int nx, int ny, double* phase) {
-    // Count the number of elements in the phase-space
-    int i, j, cnt;
-    double dx, dy, total;
+    const double dx = fabs(xout[1] - xout[0]) * 0.5;
+    const double dy = fabs(yout[1] - yout[0]) * 0.5;
+    memset(phase, 0, nx * ny * sizeof(double));
 
-    dx = fabs(xout[1] - xout[0]) / 2.0;
-    dy = fabs(yout[1] - yout[0]) / 2.0;
+    for (int k = 0; k < ndim0; k++) {
+        const double x = xin[k];
+        const double y = yin[k];
 
-    for (j = 0; j < ny; j++) {
-        for (i = 0; i < nx; i++) {
-            cnt = 0;
-            total = 0.0;
-
-            for (int k = 0; k < ndim0; k++) {
-                if (xin[k] >= xout[i] - dx && xin[k] < xout[i] + dx && yin[k] >= yout[j] - dy && yin[k] < yout[j] + dy) {
-                    cnt++;
+        // Find x bin range using binary search approach
+        int i_start = 0, i_end = nx;
+        for (int i = 0; i < nx; i++) {
+            const double x_center = xout[i];
+            if (x >= x_center - dx && x < x_center + dx) {
+                // Find y bin range
+                for (int j = 0; j < ny; j++) {
+                    const double y_center = yout[j];
+                    if (y >= y_center - dy && y < y_center + dy) {
+                        const int idx = j * nx + i;
+                        phase[idx]++;
+                    }
                 }
             }
-
-            if (cnt == 0) {
-                continue;
-            }
-
-            phase[j * nx + i] = cnt;
         }
     }
 }
